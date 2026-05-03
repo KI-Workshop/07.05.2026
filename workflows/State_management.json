@@ -1,0 +1,761 @@
+{
+  "name": "State_management",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        816
+      ],
+      "id": "58c49a6c-92b1-4abe-9180-fb91a0e0ce9a",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -112,
+        1344
+      ],
+      "id": "64efe8fd-f9cd-4b0d-a1e1-4a7daacfb6a6",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "content": "# Create a new [Data Table ](https://docs.n8n.io/data/data-tables/)\n",
+        "height": 368,
+        "width": 944,
+        "color": "#AEF9F8"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        176,
+        496
+      ],
+      "id": "be10bcfb-142e-42b4-b857-f269c5468bae",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# Define constants \n\n\n\n\n\n\n\n\n\n\n",
+        "height": 256,
+        "width": 384,
+        "color": "#FEFB9A"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -208,
+        736
+      ],
+      "id": "b41c9796-bd4d-47d6-aa4b-c8a770619cdc",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# Imitate human requests flow",
+        "height": 400,
+        "width": 944,
+        "color": "#FDE2F6"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        176,
+        864
+      ],
+      "id": "fb8cf059-0347-4c18-8055-93cb11b191eb",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "resource": "table",
+        "options": {
+          "filterName": "={{ $('Set constants').first().json.table_name }}"
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        288,
+        640
+      ],
+      "id": "495f2b14-ff75-4611-a6e6-facaa0d926c6",
+      "name": "List target data table",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "resource": "table",
+        "operation": "create",
+        "tableName": "={{ $('Set constants').first().json.table_name }}",
+        "columns": {
+          "column": [
+            {
+              "name": "humans_name"
+            },
+            {
+              "name": "messages_sent",
+              "type": "number"
+            },
+            {
+              "name": "last_message_date",
+              "type": "date"
+            }
+          ]
+        },
+        "options": {
+          "createIfNotExists": false
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        912,
+        624
+      ],
+      "id": "0918e941-1195-4f4b-a5e6-6df3755155c8",
+      "name": "Create a target data table"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "16f51445-48ea-452a-93ff-490a00ed92b0",
+              "name": "array",
+              "value": "={{ Array.from({ length: 10 }, () => ({})) }}",
+              "type": "array"
+            },
+            {
+              "id": "b9cf47b3-5b69-49db-8f2f-2d438769eb32",
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        288,
+        992
+      ],
+      "id": "eeb4aa26-bc80-492f-a089-175e7ac47680",
+      "name": "Create an array of potential messages"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b3008602-cfee-4ef8-965e-de0cf35a49f5",
+              "name": "table_name",
+              "value": "state_management_ws",
+              "type": "string"
+            },
+            {
+              "id": "e81a888c-4704-46c0-a16b-b496fe843c96",
+              "name": "humans",
+              "value": "=[\"1\",\"2\",\"3\",\"4\",\"5\"]",
+              "type": "array"
+            },
+            {
+              "id": "aa912063-1ad4-4229-abc7-a14f412bd3e4",
+              "name": "max_messages_per_day",
+              "value": 5,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        32,
+        816
+      ],
+      "id": "6e5a4eaa-0346-4125-bd50-9b09f254545b",
+      "name": "Set constants"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "array",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        496,
+        992
+      ],
+      "id": "ddcbdc00-a408-4068-8640-6406f4afd24a",
+      "name": "Split Out into seperate items"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "60759282-c9af-4844-b8e1-aba1370336a0",
+              "name": "humans_name",
+              "value": "={{ $('Set constants').first().json.humans[Math.floor(Math.random() * $('Set constants').first().json.humans.length)] }}",
+              "type": "string"
+            },
+            {
+              "id": "e22f7298-5197-4216-8298-890cb0161c90",
+              "name": "max_messages_per_day",
+              "value": "={{ $('Set constants').first().json.max_messages_per_day }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        688,
+        992
+      ],
+      "id": "28c48ada-01a3-40e3-9375-9b0471859ef1",
+      "name": "Assign messages to humans in random order"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "={{$workflow.id}}",
+          "mode": "id",
+          "cachedResultUrl": "/workflow/=%7B%7B$workflow.id%7D%7D"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        912,
+        896
+      ],
+      "id": "95c65191-a441-48be-9969-25858d55dee0",
+      "name": "Process human requests one by one",
+      "notesInFlow": true,
+      "notes": "One by one"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "={{$workflow.id}}",
+          "mode": "id",
+          "cachedResultUrl": "/workflow/=%7B%7B$workflow.id%7D%7D"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        912,
+        1088
+      ],
+      "id": "d646e4e5-1bd3-459f-910a-8f3075d8c913",
+      "name": "Process human requests in parallel",
+      "notesInFlow": true,
+      "notes": "Parallel run"
+    },
+    {
+      "parameters": {
+        "content": "# Process human requests\n\n\n\n\n\n\n\n\n\n\n",
+        "height": 400,
+        "width": 1328,
+        "color": "#FEFB9A"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -208,
+        1264
+      ],
+      "id": "e95ec3e9-9f0b-4738-87f9-4c4171e5c1a6",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "state_management_ws",
+          "mode": "name"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "humans_name",
+              "keyValue": "={{ $json.humans_name }}"
+            },
+            {
+              "keyName": "last_message_date",
+              "condition": "gte",
+              "keyValue": "={{ $now.startOf('day') }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        272,
+        1344
+      ],
+      "id": "d085a3ab-43ae-4412-bcc1-3524ee171cdf",
+      "name": "Is it the first request from this human today?",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1554465-aa52-4361-abd8-8228ca1c8c97",
+              "name": "humans_name",
+              "value": "={{ $json?.humans_name ?? $('When Executed by Another Workflow').item.json.humans_name }}",
+              "type": "string"
+            },
+            {
+              "id": "afb1ccb9-5cd8-4946-8a38-e7710e450456",
+              "name": "last_message_date",
+              "value": "={{ $now }}",
+              "type": "string"
+            },
+            {
+              "id": "4276d01f-2cba-44ee-b39a-375fe99a2291",
+              "name": "messages_sent",
+              "value": "={{ ($json?.messages_sent ?? 0) + 1 }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        1344
+      ],
+      "id": "f74d02d0-5c69-47eb-945d-6fd6f888ee1c",
+      "name": "Add counts regardless"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "ec790605-ddab-4506-a58d-946ed2c647c7",
+              "leftValue": "={{ $json.messages_sent }}",
+              "rightValue": "={{ $('When Executed by Another Workflow').first().json.max_messages_per_day }}",
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        672,
+        1344
+      ],
+      "id": "938a0f2f-1e2e-4e90-bbb4-2a71017b7201",
+      "name": "Request limit reached for today?"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9702b1c5-3927-4e9f-8d25-ad79af94cf53",
+              "name": "output",
+              "value": "=Dear {{ $json.humans_name }}, you reached your message limit for today. Come back tomorrow!",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        912,
+        1328
+      ],
+      "id": "d9b2ddbb-3f92-47b5-8a8d-e4ff2ed11b40",
+      "name": "Request limit reached"
+    },
+    {
+      "parameters": {
+        "amount": "={{ (Math.random()*2+0.5).toFixed(2) }}"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        80,
+        1344
+      ],
+      "id": "66e879a2-32a7-4c02-9970-e3f3b641e96d",
+      "name": "Simulate processing delay",
+      "webhookId": "9fde2b85-dca6-4373-9a2d-dbed68ca2987"
+    },
+    {
+      "parameters": {
+        "operation": "upsert",
+        "dataTableId": {
+          "__rl": true,
+          "value": "state_management_ws",
+          "mode": "name"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "humans_name",
+              "keyValue": "={{ $json.humans_name }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "messages_sent": "={{ $json.messages_sent }}",
+            "last_message_date": "={{ $json.last_message_date }}",
+            "humans_name": "={{ $json.humans_name }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "humans_name",
+              "displayName": "humans_name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "messages_sent",
+              "displayName": "messages_sent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "last_message_date",
+              "displayName": "last_message_date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        672,
+        1504
+      ],
+      "id": "9828ec9c-39f6-49a5-b593-040d049f5a53",
+      "name": "Create new record or update the old one"
+    },
+    {
+      "parameters": {
+        "content": "# 💫Take aways \n\n## 1. State management in Data Table\n\n## 2. Node reference \n\n## 3. Sequential vs. parallel processing (beware of race condition)\n\n## 4. n8n expressions vs. standard if logic\n\n## 5. Upsert in Data Table",
+        "height": 368,
+        "width": 576,
+        "color": "#2C0637"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1152,
+        496
+      ],
+      "id": "4ed70eb4-8f9b-4676-b91d-9fa57e1e6442",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9702b1c5-3927-4e9f-8d25-ad79af94cf53",
+              "name": "output",
+              "value": "=Dear {{ $json.humans_name }}, your message #{{ $json.messages_sent }} was successfully processed.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        912,
+        1504
+      ],
+      "id": "acca3ce8-e7cc-4835-8d28-f1e2b99c6143",
+      "name": "Confirm successful processing"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "24c96f8e-1f55-425f-a647-fbc506f1c5e2",
+              "leftValue": "={{ $json }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        592,
+        640
+      ],
+      "id": "3ef31bf6-aa03-4871-9fbd-b05639f4dde1",
+      "name": "No target table?"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Simulate processing delay",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Set constants",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "List target data table": {
+      "main": [
+        [
+          {
+            "node": "No target table?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an array of potential messages": {
+      "main": [
+        [
+          {
+            "node": "Split Out into seperate items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set constants": {
+      "main": [
+        [
+          {
+            "node": "List target data table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out into seperate items": {
+      "main": [
+        [
+          {
+            "node": "Assign messages to humans in random order",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Assign messages to humans in random order": {
+      "main": [
+        [
+          {
+            "node": "Process human requests one by one",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is it the first request from this human today?": {
+      "main": [
+        [
+          {
+            "node": "Add counts regardless",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add counts regardless": {
+      "main": [
+        [
+          {
+            "node": "Request limit reached for today?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Request limit reached for today?": {
+      "main": [
+        [
+          {
+            "node": "Request limit reached",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create new record or update the old one",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simulate processing delay": {
+      "main": [
+        [
+          {
+            "node": "Is it the first request from this human today?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create new record or update the old one": {
+      "main": [
+        [
+          {
+            "node": "Confirm successful processing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No target table?": {
+      "main": [
+        [
+          {
+            "node": "Create a target data table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "746a4ee8-5d9c-44f8-a352-bf8f9158f05c",
+  "meta": {
+    "instanceId": "26b813dbc9e6a5d4d0e9118e36933b8ffd29262f560a7abf71d40736214ae089"
+  },
+  "id": "PiiQFmGgKsGLcRJZ",
+  "tags": []
+}
